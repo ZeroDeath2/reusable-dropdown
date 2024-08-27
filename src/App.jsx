@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/* eslint-disable no-unused-vars */
+import React from "react";
+import Dropdown from "./components/dropdown";
+import "./App.css"; // Import the CSS file
 
-function App() {
-  const [count, setCount] = useState(0)
+const options = [
+  { label: "Selected Option", value: "option1" },
+  { label: "Default Option", value: "option2" },
+  { label: "Hovered Option", value: "option3" },
+  { label: "Disabled Option", value: "option4", disabled: true },
+  { label: "Text values", value: "option5" },
+  { label: "Icon and Text", value: "option6", icon: "🔍" },
+];
+
+const App = () => {
+  const handleSelect = (option) => {
+    console.log("Selected:", option);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div>
+      <h1>Reusable Dropdown</h1>
+      <Dropdown options={options} onSelect={handleSelect} searchable direction="down" placeholder="Select an option" defaultSelected={options[1]} />
+    </div>
+  );
+};
 
-export default App
+export default App;
