@@ -66,14 +66,14 @@
         margin: 0;
   
         .dropdown-item {
-          padding: 10px;
+          padding: 7px;
           cursor: pointer;
           display: flex;
           align-items: center;
 
   
           &:hover {
-            background: #333333;
+            background: #272727;
           }
   
           &.disabled {

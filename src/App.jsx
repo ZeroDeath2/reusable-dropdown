@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import Dropdown from "./components/dropdown";
-import "./App.css"; // Import the CSS file
+import "./App.css"; 
 
 const options = [
   { label: "Selected Option", value: "option1" },

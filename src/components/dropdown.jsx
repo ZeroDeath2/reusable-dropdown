@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
-import 'bootstrap-icons/font/bootstrap-icons.css'; // Import Bootstrap Icons CSS
-import '../styles/dropdown.scss'; // Assuming you have some CSS for styling
+import 'bootstrap-icons/font/bootstrap-icons.css'; 
+import '../styles/dropdown.scss'; 
 
-const Dropdown = ({ options, placeholder, searchable, disabled, defaultSelected, direction = 'down' }) => {
+const Dropdown = ({ options, placeholder, searchable, disabled, defaultSelected, direction = 'down', onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOption, setSelectedOption] = useState(defaultSelected || null);
@@ -28,7 +28,10 @@ const Dropdown = ({ options, placeholder, searchable, disabled, defaultSelected,
     if (!option.disabled) {
       setSelectedOption(option);
       setIsOpen(false);
-      setSearchTerm(""); // Clear search term after selection
+      setSearchTerm(""); 
+      if (onSelect) {
+        onSelect(option); 
+      }
     }
   };
 
@@ -57,7 +60,9 @@ const Dropdown = ({ options, placeholder, searchable, disabled, defaultSelected,
           ) : (
             placeholder
           )}
-          <span className="arrow">{isOpen ? "▲" : "▼"}</span>
+          <span className="arrow">
+            <i className={`bi ${isOpen ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
+          </span>
         </div>
       )}
       {isOpen && (
