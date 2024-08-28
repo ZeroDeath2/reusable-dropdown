@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
+import 'bootstrap-icons/font/bootstrap-icons.css'; // Import Bootstrap Icons CSS
 import '../styles/dropdown.scss'; // Assuming you have some CSS for styling
 
-const Dropdown = ({ options, placeholder, searchable, disabled, defaultSelected }) => {
+const Dropdown = ({ options, placeholder, searchable, disabled, defaultSelected, direction = 'down' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOption, setSelectedOption] = useState(defaultSelected || null);
@@ -14,7 +15,9 @@ const Dropdown = ({ options, placeholder, searchable, disabled, defaultSelected 
   }, [defaultSelected]);
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    if (!disabled) {
+      setIsOpen(!isOpen);
+    }
   };
 
   const handleSearchChange = (e) => {
@@ -34,8 +37,8 @@ const Dropdown = ({ options, placeholder, searchable, disabled, defaultSelected 
   );
 
   return (
-    <div className="dropdown">
-      {isOpen ? (
+    <div className={`dropdown ${direction}`}>
+      {isOpen && searchable ? (
         <input
           type="text"
           className="dropdown-search"
@@ -46,24 +49,35 @@ const Dropdown = ({ options, placeholder, searchable, disabled, defaultSelected 
         />
       ) : (
         <div className={`dropdown-header ${disabled ? "disabled" : ""}`} onClick={toggleDropdown}>
-          {selectedOption ? selectedOption.label : placeholder}
+          {selectedOption ? (
+            <>
+              {selectedOption.icon && <span className="icon"><i className={`bi ${selectedOption.icon}`}></i></span>}
+              {selectedOption.label}
+            </>
+          ) : (
+            placeholder
+          )}
           <span className="arrow">{isOpen ? "▲" : "▼"}</span>
         </div>
       )}
       {isOpen && (
         <div className="dropdown-body">
           <ul>
-            {filteredOptions.map((option) => (
-              <li
-                key={option.value}
-                className={`dropdown-item ${selectedOption?.value === option.value ? "selected" : ""} ${option.disabled ? "disabled" : ""}`}
-                onClick={() => handleSelect(option)}
-              >
-                {selectedOption?.value === option.value && <span className="tick-icon">✓</span>}
-                {option.icon && <span className="icon">{option.icon}</span>}
-                {option.label}
-              </li>
-            ))}
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((option) => (
+                <li
+                  key={option.value}
+                  className={`dropdown-item ${selectedOption?.value === option.value ? "selected" : ""} ${option.disabled ? "disabled" : ""}`}
+                  onClick={() => handleSelect(option)}
+                >
+                  {selectedOption?.value === option.value && <span className="tick-icon">✓</span>}
+                  {option.icon && <span className="icon"><i className={`bi ${option.icon}`}></i></span>}
+                  {option.label}
+                </li>
+              ))
+            ) : (
+              <li className="dropdown-item disabled">Nothing found</li>
+            )}
           </ul>
         </div>
       )}
